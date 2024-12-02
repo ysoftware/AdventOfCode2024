@@ -80,15 +80,33 @@ int main(void) {
     }
     printf("Parsed %d lines.\n", line);
 
-    qsort(&list1, line, sizeof(int), compare);
-    qsort(&list2, line, sizeof(int), compare);
-
-    int result = 0;
-    for (int i=0; i < line; i++) {
-        result += abs(list1[i] - list2[i]);
+    // Part 1
+    {
+        qsort(&list1, line, sizeof(int), compare);
+        qsort(&list2, line, sizeof(int), compare);
+        int result = 0;
+        for (int i = 0; i < line; i++) {
+            result += abs(list1[i] - list2[i]);
+        }
+        printf("Result 1 is: %d\n", result);
     }
 
-    printf("Result is: %d\n", result);
+    // Part 2
+    {
+        int counts[FILE_LINES_MAX] = {0};
+        for (int cursor1 = 0; cursor1 < line; cursor1++) {
+            for (int cursor2 = 0; cursor2 < line; cursor2++) {
+                if (list1[cursor1] == list2[cursor2]) {
+                    counts[cursor1] += 1;
+                }
+            }
+        }
+        int result = 0;
+        for (int i = 0; i < line; i++) {
+            result += counts[i] * list1[i];
+        }
+        printf("Result 2 is: %d\n", result);
+    }
 
     return 0;
 }
